@@ -19,7 +19,7 @@ Low value of the parameter makes the PCLM computation faster. It is however reco
 it to higher value (e.g. 10) for better \code{nax} estimates.}
 
 \item{x.auto.trans}{Logical indicating if automatically multiple age intervals to remove fractions.
-\code{TRUE} is the recommended value. See also examples in \code{\link{pclm.fit}}.}
+\code{TRUE} is the recommended value. See also examples in \code{\link{\code{\link{pclm.default}}}}.}
 
 \item{x.max.ext}{Integer defining maximal multiple of an age interval. See also \code{\link{pclm.interval.multiple}}.}
 
@@ -85,7 +85,7 @@ List with control parameters.
 }
 \description{
 Auxiliary function for controlling PCLM fitting. Use this function to set control
-parameters of the \code{\link{pclm.fit}} and other related functions.
+parameters of the \code{\link{\code{\link{pclm.default}}}} and other related functions.
 }
 \references{
 \enumerate{

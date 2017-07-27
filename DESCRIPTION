@@ -2,11 +2,12 @@ Package: pclm
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Author: Maciej J. Danko <danko@demogr.mpg.de> <maciej.danko@gmail.com>, Marius Pascariu <mpascariu@health.sdu.dk>, Silvia Rizzi <srizzi@health.sdu.dk>, 
+Maintainer: Marius Pascariu <mpascariu@health.sdu.dk>, Maciej J. Danko <danko@demogr.mpg.de> <maciej.danko@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL-2
 Encoding: UTF-8
 LazyData: true
+Imports: Matrix, splines, MortalitySmooth
 RoxygenNote: 6.0.1

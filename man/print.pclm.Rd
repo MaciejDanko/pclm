@@ -4,7 +4,7 @@
 \alias{print.pclm}
 \title{Print function for PCLM object}
 \usage{
-\method{print}{pclm}(object, type = c("aggregated", "nonaggregated"), ...)
+print.pclm(object, type = c("aggregated", "nonaggregated"), ...)
 }
 \arguments{
 \item{object}{PCLM object.}
@@ -19,3 +19,4 @@
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
+\keyword{internal}

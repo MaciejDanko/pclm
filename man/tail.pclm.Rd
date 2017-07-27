@@ -19,3 +19,4 @@ tail.pclm(object, n = 6L, type = c("aggregated", "nonaggregated"))
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
+\keyword{internal}

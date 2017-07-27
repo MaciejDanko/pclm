@@ -6,10 +6,10 @@
 #' \emph{bold{Generic function}}
 #' @param object Fitted PCLM object.
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
-#' @seealso \code{\link{pclm.fit}} \code{\link{plot.pclm}}
+#' @seealso  \code{\link{plot.pclm}}
 #' @keywords internal
 #' @export
-summary.pclm <- function(object){
+summary.pclm <- function(object, ...){
   message('Summary of the pclm object:')
   n1 <- diff(object$fit$CompositionMatrix$x)
   n1 <- c(n1, n1[length(n1)])
@@ -43,7 +43,7 @@ summary.pclm <- function(object){
 #' @param type Type of PCLM plot:
 #' \itemize{
 #' \item{\code{"aggregated"} - Aggregated PCLM fit with interval length of \code{out.step}}.
-#' See \code{\link{pclm.fit}}.
+#' See .
 #' \item{\code{"nonaggregated"} - Nonaggregated (raw) PCLM fit with interval
 #' of length equal to the shortest original
 #' interval length divided by \code{x.div}. See \code{\link{pclm.control}}}.
@@ -55,7 +55,7 @@ summary.pclm <- function(object){
 #' @param legpos.x,legpos.y Position of the \code{\link{legend}}. If \code{legpos.x == NULL} then legend is not plotted.
 #'
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
-#' @seealso \code{\link{pclm.fit}} \code{\link{summary.pclm}}
+#' @seealso  \code{\link{summary.pclm}}
 #' @keywords internal
 #' @export
 plot.pclm<-function(object, type = c("aggregated", "nonaggregated"), 
@@ -104,11 +104,12 @@ plot.pclm<-function(object, type = c("aggregated", "nonaggregated"),
 #'
 #' @description
 #' \emph{bold{Generic function}}
-#' @export
 #' @param object PCLM object.
 #' @param n A single integer. If positive, size for the resulting object: number of rows for a life-table. If negative, all but the n last/first number of elements of x.
 #' @param type which life-table  should be returned. One of \code{"aggregated"} or \code{"nonaggregated"}.
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
+#' @keywords internal
+#' @export
 head.pclm<-function(object, n = 6L, type = c("aggregated", "nonaggregated")){
   type <- type[1]
   if (type == "aggregated")
@@ -124,11 +125,12 @@ head.pclm<-function(object, n = 6L, type = c("aggregated", "nonaggregated")){
 #'
 #' @description
 #' \emph{bold{Generic function}}
-#' @export
 #' @param object PCLM object.
 #' @param n A single integer. If positive, size for the resulting object: number of rows for a life-table. If negative, all but the n last/first number of elements of x.
 #' @param type which life-table  should be returned. One of \code{"aggregated"} or \code{"nonaggregated"}.
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
+#' @keywords internal
+#' @export
 tail.pclm<-function(object, n=6L, type = c("aggregated", "nonaggregated")){
   type <- type[1]
   if (type == "aggregated")
@@ -144,11 +146,12 @@ tail.pclm<-function(object, n=6L, type = c("aggregated", "nonaggregated")){
 #'
 #' @description
 #' \emph{bold{Generic function}}
-#' @export
 #' @param object PCLM object.
 #' @param type which life-table  should be returned. One of \code{"aggregated"} or \code{"nonaggregated"}.
 #' @param ... other parameters passed to \code{\link{print}}.
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
+#' @keywords internal
+#' @export
 print.pclm<-function(object, type = c("aggregated", "nonaggregated"), ...){
   type <- type[1]
   if (type == "aggregated")

@@ -71,12 +71,14 @@ x <- c(0, 1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
 dx <- c(38, 37, 17, 104, 181, 209, 452, 1190, 2436, 3164, 1852, 307, 13)
 # Survivors at the beginning of age class
 lx <- sum(dx)-c(0, cumsum(dx[-length(dx)]))
-# Mortality per age class
-mx <- - log(1 - dx / lx) / diff(c(x,110))
+# Interval length
+n <- diff(c(x,110))
+# Approximation of mortality per age class
+mx <- - log(1 - dx / lx) / n
 # Mid-interval vector
-xh <- x + c(diff(x), 10)/2
-# Naive exposures
-Lx = (lx + c(lx[-1], 0)) / 2
+xh <- x + n / 2
+# Approximated exposures
+Lx <- n * (lx - dx) + 0.5 * dx *n
 
 # *** Use PCLM
 # Ungroup dataset with out.step equal minimal interval length
@@ -138,7 +140,7 @@ X <- AU10p.4a$grouped$x
 M <- -log(1 - AU10p.4a$grouped$dx/AU10p.4a$grouped$lx)
 plot(X, log10(M), type='l', lwd = 2,
      xlim=c(0,130), xlab='Age', ylab='log_10 mortality', col = 2)
-lines(xh, log10(mx), type = 'p')
+lines(xh, log10(mx1), type = 'p')
 tail(AU10p.4a, n = 10)
 #note that lx has standardized values
 
@@ -147,28 +149,33 @@ AU10p.4b <- pclm.default(x, dx, control = list(zero.class.end = 150,
                      x.div = 4))
 X <- AU10p.4b$grouped$x
 M <- -log(1 - AU10p.4b$grouped$dx / AU10p.4b$grouped$lx)
+ 
 plot(X, log10(M), type='l', lwd = 2,
      xlim=c(0,130), xlab='Age', ylab='log_10 mortality', col = 2)
-lines(xh, log10(mx), type = 'p')
-print(AU10p.4b$lt[111:120,])
+lines(xh, log10(mx1), type = 'p')
+tail(AU10p.4a, n = 10)
 
 # The change of the order of the difference in pclm algorithm may
 # affect hte interpretation of the tail.
-# But try to check also pclm.deg = 4 and 5.
+# Try to check pclm.deg = 4 and 5.
 AU10p.4c <- pclm.default(x, dx, control = list(zero.class.end = 150,
                      x.div = 1, pclm.deg = 4))
 X <- AU10p.4c$grouped$x
 M <- -log(1 - AU10p.4c$grouped$dx / AU10p.4c$grouped$lx)
 plot(X, log10(M), type='l', lwd = 2,
      xlim=c(0,130), xlab='Age', ylab='log_10 mortality', col = 2)
-lines(xh, log10(mx), type = 'p')
+lines(xh, log10(mx1), type = 'p')
 
-# Using exposures to fit mortality
+# Using exposures to fit mortality, 
+# Notice that different approximation of mortality rate is used than in
+# previous cases.
 AU10p.4c <- pclm.default(x, dx, exposures = Lx, control = list(zero.class.end = 150,
                      x.div = 1, pclm.deg = 2, bs.use = FALSE))
 X <- AU10p.4c$grouped$x
 M <- AU10p.4c$grouped$mx
-lines(X, log10(M), lty=2, lwd=2, col=4)
+plot(X, log10(M), type='l', lwd = 2,
+     xlim=c(0,130), xlab='Age', ylab='log_10 mortality', col = 2)
+lines(xh, log10((dx / Lx) / n), type = 'p')
 
 # *******************************************************************
 # Usage of PCLM methods for more complicated dataset
@@ -241,7 +248,7 @@ K / 20
 Bp4$grouped$n[1:10]/ # divided by
 # interval length in nonaggregated PCLM life-table:
 Bp4$raw$n[1:10]
-# REMEBER: The interval for the raw PCLM life-table depends
+# NOTE: The interval for the raw PCLM life-table depends
 # on original interval, m, and x.div,
 # whereas the grouped PCLM interval length is set by out.step,
 # which could be eventually increased if out.step < raw PCLM

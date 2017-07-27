@@ -4,7 +4,7 @@
 \alias{summary.pclm}
 \title{Summary of the fitted PCLM object}
 \usage{
-\method{summary}{pclm}(object)
+summary.pclm(object, ...)
 }
 \arguments{
 \item{object}{Fitted PCLM object.}
@@ -13,7 +13,7 @@
 \emph{bold{Generic function}}
 }
 \seealso{
-\code{\link{pclm.fit}} \code{\link{plot.pclm}}
+\code{\link{plot.pclm}}
 }
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>

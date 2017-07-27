@@ -8,13 +8,13 @@ require(MortalitySmooth)
 #'
 #' @description
 #' Auxiliary function for controlling PCLM fitting. Use this function to set control
-#' parameters of the \code{\link{pclm.fit}} and other related functions.
+#' parameters of the \code{\link{\code{\link{pclm.default}}}} and other related functions.
 #'
 #' @param x.div Number of sub-classes within PCLM tim/age class (default is 1).
 #' Low value of the parameter makes the PCLM computation faster. It is however recommended to set
 #' it to higher value (e.g. 10) for better \code{nax} estimates.
 #' @param x.auto.trans Logical indicating if automatically multiple age intervals to remove fractions.
-#' \code{TRUE} is the recommended value. See also examples in \code{\link{pclm.fit}}.
+#' \code{TRUE} is the recommended value. See also examples in \code{\link{\code{\link{pclm.default}}}}.
 #' @param x.max.ext Integer defining maximal multiple of an age interval. See also \code{\link{pclm.interval.multiple}}.
 #' @param zero.class.add Logical indicating if additional zero count class (open interval)
 #' should be added after last age class. \code{TRUE} is the recommended value. See \code{\link{pclm.nclasses}} and \code{\link{pclm.compmat}}.
@@ -212,10 +212,7 @@ pclm.nclasses<-function(x, control = list()) {
 #' @seealso \code{\link{pclm.default}}, \code{\link{pclm.control}}, \code{\link{pclm.interval.multiple}}, and \code{\link{pclm.nclasses}}.
 #' @keywords internal
 pclm.compmat<-function(x, y, exposures = NULL, control = list()){
-  require(Matrix)
-  require(splines)
-  require(MortalitySmooth)
-
+  
   control <- do.call("pclm.control", control)
   if (control$bs.use == 'auto') {
     control$bs.use <- (pclm.nclasses(x, control) >= control$bs.df.max)
@@ -334,24 +331,24 @@ pclm.core <- function(CompositionMatrix, lambda = 1, control = list()){
   y <-  CompositionMatrix$y
   y <- as.matrix(as.vector(y))
   nx <- dim(X)[2] #number of small classes
-  D <- diff(diag(nx), diff = control.deg)
+  D <- diff(diag(nx), diff = control$pclm.deg)
   bstart <- log(sum(y) / nx);
   b <- rep(bstart, nx);
   was.break <- FALSE
-  for (it in 1:control.max.iter) {
+  for (it in 1:control$pclm.max.iter) {
     b0 <- b
     eta <- X %*% b
     gam <- exp(eta)
     mu <- C %*% gam
-    w <- c(1 / mu, rep(lambda, nx - control.deg))
+    w <- c(1 / mu, rep(lambda, nx - control$pclm.deg))
     Gam <- gam %*% rep(1, nx)
     Q <- C %*% (Gam * X)
-    z <- c(y - mu + Q %*% b, rep(0, nx - control.deg))
+    z <- c(y - mu + Q %*% b, rep(0, nx - control$pclm.deg))
     ls.x <- rbind(Q, D)
-    Fit <- lsfit(ls.x, z, wt = w, intercept = FALSE, tolerance = control.lsfit.tol)
+    Fit <- lsfit(ls.x, z, wt = w, intercept = FALSE, tolerance = control$pclm.lsfit.tol)
     b <- Fit$coef
     db <- max(abs(b - b0))
-    if (db < control.tol) {
+    if (db < control$pclm.tol) {
       was.break <- TRUE
       break
     }
@@ -440,7 +437,11 @@ pclm.aggregate<-function(fit, out.step = NULL, count.type = c('DX', 'LX'), expos
   warn.list <- fit$warn.list
   Y <- fit$Y
   X <- fit$X
-  n <- diff(X)[1]#c(diff(X), diff(X)[length(X)-1])
+  n <- diff(X)[1] #c(diff(X), diff(X)[length(X)-1])
+  
+  #Standardize Y to reflect true population size
+  if ((!exposures.used) && (toupper(count.type) == 'DX'))  Y <- (Y / sum(Y)) * sum(fit$CompositionMatrix$y)
+  
   if (length(out.step) == 0) x <- p(fit$CompositionMatrix$x) else {
     if (p(out.step)<p(n)) {
       WARN <- 'Output age interval length (out.step) was too small and was adjusted. It equals the smallest age class now. Re-fit PCLM with higher x.div.'
@@ -462,21 +463,24 @@ pclm.aggregate<-function(fit, out.step = NULL, count.type = c('DX', 'LX'), expos
     if (!exposures.used){
       ax <- rep(NA, length(x)-1)
       Dx <- rep(NA, length(x)-1)
-      for (j in 1:(length(x)-1)){
+      for (j in 1:(length(x)-1)){ # use aggregate() in the next version
         ind <- (x[j] <= X) & (x[j + 1] > X)
         sDx <- sum(Y[ind])
         mX <- sum(Y[ind] * (X[ind] - X[ind][1] + n/2))
         ax[j] <- mX / sDx
         Dx[j] <- sDx
       }
-      grouped <- data.frame(x = x[-length(x)], lx = sum(Dx)-c(0, cumsum(Dx)[-length(Dx)]),
+      N <- sum(Dx) 
+      grouped <- data.frame(x = x[-length(x)], lx = N - c(0, cumsum(Dx)[-length(Dx)]),
                          dx = Dx, ax = ax, n = diff(x), Ax = ax / diff(x))
-      raw <- data.frame(x = X, lx = sum(Y)-c(0, cumsum(Y)[-length(Y)]), dx = Y,
+      N <- sum(Y) 
+      # N <- sum(fit$CompositionMatrix$y) #true population size
+      raw <- data.frame(x = X, lx = N - c(0, cumsum(Y)[-length(Y)]), dx = Y,
                      ax = c(0.5 * diff(X), 0.5*diff(X)[length(X)-1]),
                      n = n, Ax = 0.5)
     } else {
       MX = rep(NA, length(x)-1)
-      for (j in 1:(length(x)-1)){
+      for (j in 1:(length(x)-1)){  # use aggregate() in the next version
         ind <- (x[j] <= X) & (x[j + 1] > X)
         MX[j] <- sum(Y[ind], na.rm=TRUE)
       }
@@ -552,12 +556,14 @@ pclm.aggregate<-function(fit, out.step = NULL, count.type = c('DX', 'LX'), expos
 #' dx <- c(38, 37, 17, 104, 181, 209, 452, 1190, 2436, 3164, 1852, 307, 13)
 #' # Survivors at the beginning of age class
 #' lx <- sum(dx)-c(0, cumsum(dx[-length(dx)]))
-#' # Mortality per age class
-#' mx <- - log(1 - dx / lx) / diff(c(x,110))
+#' # Interval length
+#' n <- diff(c(x,110))
+#' # Approximation of mortality per age class
+#' mx <- - log(1 - dx / lx) / n
 #' # Mid-interval vector
-#' xh <- x + c(diff(x), 10)/2
-#' # Naive exposures
-#' Lx = (lx + c(lx[-1], 0)) / 2
+#' xh <- x + n / 2
+#' # Approximated exposures
+#' Lx <- n * (lx - dx) + 0.5 * dx *n
 #' 
 #' # *** Use PCLM
 #' # Ungroup dataset with out.step equal minimal interval length
@@ -619,7 +625,7 @@ pclm.aggregate<-function(fit, out.step = NULL, count.type = c('DX', 'LX'), expos
 #' M <- -log(1 - AU10p.4a$grouped$dx/AU10p.4a$grouped$lx)
 #' plot(X, log10(M), type='l', lwd = 2,
 #'      xlim=c(0,130), xlab='Age', ylab='log_10 mortality', col = 2)
-#' lines(xh, log10(mx), type = 'p')
+#' lines(xh, log10(mx1), type = 'p')
 #' tail(AU10p.4a, n = 10)
 #' #note that lx has standardized values
 #'
@@ -628,29 +634,34 @@ pclm.aggregate<-function(fit, out.step = NULL, count.type = c('DX', 'LX'), expos
 #'                      x.div = 4))
 #' X <- AU10p.4b$grouped$x
 #' M <- -log(1 - AU10p.4b$grouped$dx / AU10p.4b$grouped$lx)
+#'  
 #' plot(X, log10(M), type='l', lwd = 2,
 #'      xlim=c(0,130), xlab='Age', ylab='log_10 mortality', col = 2)
-#' lines(xh, log10(mx), type = 'p')
-#' print(AU10p.4b$lt[111:120,])
+#' lines(xh, log10(mx1), type = 'p')
+#' tail(AU10p.4a, n = 10)
 #'
 #' # The change of the order of the difference in pclm algorithm may
 #' # affect hte interpretation of the tail.
-#' # But try to check also pclm.deg = 4 and 5.
+#' # Try to check pclm.deg = 4 and 5.
 #' AU10p.4c <- pclm.default(x, dx, control = list(zero.class.end = 150,
 #'                      x.div = 1, pclm.deg = 4))
 #' X <- AU10p.4c$grouped$x
 #' M <- -log(1 - AU10p.4c$grouped$dx / AU10p.4c$grouped$lx)
 #' plot(X, log10(M), type='l', lwd = 2,
 #'      xlim=c(0,130), xlab='Age', ylab='log_10 mortality', col = 2)
-#' lines(xh, log10(mx), type = 'p')
+#' lines(xh, log10(mx1), type = 'p')
 #'
-#' # Using exposures to fit mortality
+#' # Using exposures to fit mortality, 
+#' # Notice that different approximation of mortality rate is used than in
+#' # previous cases.
 #' AU10p.4c <- pclm.default(x, dx, exposures = Lx, control = list(zero.class.end = 150,
 #'                      x.div = 1, pclm.deg = 2, bs.use = FALSE))
 #' X <- AU10p.4c$grouped$x
 #' M <- AU10p.4c$grouped$mx
-#' lines(X, log10(M), lty=2, lwd=2, col=4)
-#' 
+#' plot(X, log10(M), type='l', lwd = 2,
+#'      xlim=c(0,130), xlab='Age', ylab='log_10 mortality', col = 2)
+#' lines(xh, log10((dx / Lx) / n), type = 'p')
+#'
 #' # *******************************************************************
 #' # Usage of PCLM methods for more complicated dataset
 #' # - understanding the out.step, x.div, and interval multiple
@@ -722,7 +733,7 @@ pclm.aggregate<-function(fit, out.step = NULL, count.type = c('DX', 'LX'), expos
 #' Bp4$grouped$n[1:10]/ # divided by
 #' # interval length in nonaggregated PCLM life-table:
 #' Bp4$raw$n[1:10]
-#' # REMEBER: The interval for the raw PCLM life-table depends
+#' # NOTE: The interval for the raw PCLM life-table depends
 #' # on original interval, m, and x.div,
 #' # whereas the grouped PCLM interval length is set by out.step,
 #' # which could be eventually increased if out.step < raw PCLM
