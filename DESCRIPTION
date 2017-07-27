@@ -1,11 +1,10 @@
 Package: pclm
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Penalized Composite Linear Models (PCLMs)
 Version: 0.1.0
 Author: Maciej J. Danko <danko@demogr.mpg.de> <maciej.danko@gmail.com>, Marius Pascariu <mpascariu@health.sdu.dk>, Silvia Rizzi <srizzi@health.sdu.dk>, 
 Maintainer: Marius Pascariu <mpascariu@health.sdu.dk>, Maciej J. Danko <danko@demogr.mpg.de> <maciej.danko@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: The PCLM method is based on the composite link model, with a penalty added to ensure the smoothness of the target distribution. Estimates are obtained by maximizing a penalized likelihood. This maximization is performed efficiently by a version of the iteratively reweighted least-squares algorithm. Optimal values of the smoothing parameter are chosen by minimizing Bayesian or Akaike’ s Information Criterion [From Rizzi et al. 2015 abstract].
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
