@@ -1,6 +1,6 @@
 library (devtools)
 install_github("maciejdanko/PCLM")
-library (PCLM)
+library (pclm)
 
  # Use a simple data set. Naive life-table.
  # Age: 
@@ -193,3 +193,4 @@ library (PCLM)
  # interval length.
 
  # **** See more examples in the help for pclm.nclasses() function.
+ 
