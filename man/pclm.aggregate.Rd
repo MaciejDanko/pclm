@@ -30,10 +30,11 @@ List with components:
 \description{
 \emph{\bold{The internal function}}.
 }
-\seealso{
-\code{\link{pclm.default}}
-}
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
+\seealso{
+\code{\link{pclm.default}}
+}
 \keyword{internal}
+

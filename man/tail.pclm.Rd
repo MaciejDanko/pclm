@@ -4,19 +4,22 @@
 \alias{tail.pclm}
 \title{Tail function for PCLM object}
 \usage{
-tail.pclm(object, n = 6L, type = c("aggregated", "nonaggregated"))
+tail.pclm(x, n = 6L, type = c("aggregated", "nonaggregated"), ...)
 }
 \arguments{
-\item{object}{PCLM object.}
+\item{x}{PCLM object.}
 
 \item{n}{A single integer. If positive, size for the resulting object: number of rows for a life-table. If negative, all but the n last/first number of elements of x.}
 
 \item{type}{which life-table  should be returned. One of \code{"aggregated"} or \code{"nonaggregated"}.}
+
+\item{...}{other parameters passed to \code{\link{tail}}.}
 }
 \description{
-\emph{bold{Generic function}}
+\emph{\bold{Generic function}}
 }
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
 \keyword{internal}
+

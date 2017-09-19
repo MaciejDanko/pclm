@@ -3,7 +3,7 @@
 #' Summary of the fitted PCLM object
 #'
 #' @description
-#' \emph{bold{Generic function}}
+#' \emph{\bold{Generic function}}
 #' @param object Fitted PCLM object.
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 #' @seealso  \code{\link{plot.pclm}}
@@ -38,7 +38,7 @@ summary.pclm <- function(object, ...){
 
 #' Diagnostic plot for PCLM object.
 #' @description
-#' \emph{bold{Generic function}}
+#' \emph{\bold{Generic function}}
 #' @param object Fitted PCLM object.
 #' @param type Type of PCLM plot:
 #' \itemize{
@@ -58,39 +58,39 @@ summary.pclm <- function(object, ...){
 #' @seealso  \code{\link{summary.pclm}}
 #' @keywords internal
 #' @export
-plot.pclm<-function(object, type = c("aggregated", "nonaggregated"), 
-                    xlab, ylab, xlim, ylim, legpos.x = "topleft", legpos.y = NULL){
+plot.pclm <- function(x, type = c("aggregated", "nonaggregated"), 
+                    xlab, ylab, xlim, ylim, legpos.x = "topleft", legpos.y = NULL, ...){
   if (missing(xlab)) xlab <- 'Age or time'
   
-  if (length(object$exposures) == 0){
+  if (length(x$exposures) == 0){
     if (missing(ylab)) ylab <- 'Counts / interval length'
     
-    n1 <- diff(object$fit$CompositionMatrix$x)
+    n1 <- diff(x$fit$CompositionMatrix$x)
     n1 <- c(n1, n1[length(n1)])
-    n2 <- diff(object$fit$X)
+    n2 <- diff(x$fit$X)
     n2 <- c(n2, n2[length(n2)])
-    n3 <- diff(object$grouped$x)
+    n3 <- diff(x$grouped$x)
     n3 <- c(n3, n3[length(n3)])
     
-    if (missing(xlim)) xlim <- range(c(object$fit$X, object$fit$CompositionMatrix$x))
+    if (missing(xlim)) xlim <- range(c(x$fit$X, x$fit$CompositionMatrix$x))
     if (missing(ylim)) {
-      ylim <- range(c(object$fit$Y/n2, object$fit$CompositionMatrix$y/n1, object$grouped$dx/n3))
+      ylim <- range(c(x$fit$Y/n2, x$fit$CompositionMatrix$y/n1, x$grouped$dx/n3))
       ylim[1] <- 0
       ylim[2] <- ylim[2]*1.2
     }
     tmp.lwd <- par('lwd'); par(lwd = 2,xaxs = 'i', yaxs = 'i')
-    barplot(width = n1, space = 0, height = object$fit$CompositionMatrix$y / n1, xlab = xlab, ylab = ylab,
+    barplot(width = n1, space = 0, height = x$fit$CompositionMatrix$y / n1, xlab = xlab, ylab = ylab,
             col = 'gold2', border = 'white', xlim = xlim, ylim = ylim)
     par(lwd = tmp.lwd)
     
-    lines(object$fit$CompositionMatrix$x, object$fit$CompositionMatrix$y/n1, type = 's')
+    lines(x$fit$CompositionMatrix$x, x$fit$CompositionMatrix$y/n1, type = 's')
     axis(1)
     if (tolower(type[1]) == 'nonaggregated'){
-      lines(object$fit$X, object$fit$Y/n2, type = 's', col = 'red', lwd = 2)
+      lines(x$fit$X, x$fit$Y/n2, type = 's', col = 'red', lwd = 2)
       AType <- 'PCLM nonaggregated (raw)'
     } else if (tolower(type[1]) == 'aggregated') {
       AType <- 'PCLM aggregated'
-      lines(object$grouped$x, object$grouped$dx/n3, type = 's', col = 'red', lwd = 2)
+      lines(x$grouped$x, x$grouped$dx/n3, type = 's', col = 'red', lwd = 2)
     } else stop('Unknown plotting type.')
     if (length(legpos.x) > 0) legend(x = legpos.x, y = legpos.y, legend = c('Data', AType), bty = 'n', pch = c(15, NA), lty = c(NA, 1), lwd = 2, col = c('gold2', 'red'), pt.cex = 1.8)
     box()
@@ -103,19 +103,20 @@ plot.pclm<-function(object, type = c("aggregated", "nonaggregated"),
 #' Head function for PCLM object
 #'
 #' @description
-#' \emph{bold{Generic function}}
-#' @param object PCLM object.
-#' @param n A single integer. If positive, size for the resulting object: number of rows for a life-table. If negative, all but the n last/first number of elements of x.
+#' \emph{\bold{Generic function}}
+#' @param x PCLM object.
+#' @param n A single integer. If positive, size for the resulting x: number of rows for a life-table. If negative, all but the n last/first number of elements of x.
 #' @param type which life-table  should be returned. One of \code{"aggregated"} or \code{"nonaggregated"}.
+#' @param ... other parameters passed to \code{\link{head}}.
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 #' @keywords internal
 #' @export
-head.pclm<-function(object, n = 6L, type = c("aggregated", "nonaggregated")){
-  type <- type[1]
+head.pclm <- function(x, n = 6L, type = c("aggregated", "nonaggregated"), ...){
+  type <- type[1L]
   if (type == "aggregated")
-    head(object$grouped, n = n)
+    head(x$grouped, n = n, ...)
   else if (type == "nonaggregated")
-    head(object$raw, n = n)
+    head(x$raw, n = n, ...)
   else stop('Unknown type')
 }
 
@@ -124,19 +125,20 @@ head.pclm<-function(object, n = 6L, type = c("aggregated", "nonaggregated")){
 #' Tail function for PCLM object
 #'
 #' @description
-#' \emph{bold{Generic function}}
-#' @param object PCLM object.
+#' \emph{\bold{Generic function}}
+#' @param x PCLM object.
 #' @param n A single integer. If positive, size for the resulting object: number of rows for a life-table. If negative, all but the n last/first number of elements of x.
 #' @param type which life-table  should be returned. One of \code{"aggregated"} or \code{"nonaggregated"}.
+#' @param ... other parameters passed to \code{\link{tail}}.
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 #' @keywords internal
 #' @export
-tail.pclm<-function(object, n=6L, type = c("aggregated", "nonaggregated")){
+tail.pclm <- function(x, n=6L, type = c("aggregated", "nonaggregated"), ...){
   type <- type[1]
   if (type == "aggregated")
-    tail(object$grouped, n = n)
+    tail(x$grouped, n = n)
   else if (type == "nonaggregated")
-    tail(object$raw, n = n)
+    tail(x$raw, n = n)
   else stop('Unknown type')
 }
 
@@ -145,18 +147,18 @@ tail.pclm<-function(object, n=6L, type = c("aggregated", "nonaggregated")){
 #' Print function for PCLM object
 #'
 #' @description
-#' \emph{bold{Generic function}}
-#' @param object PCLM object.
+#' \emph{\bold{Generic function}}
+#' @param x PCLM object.
 #' @param type which life-table  should be returned. One of \code{"aggregated"} or \code{"nonaggregated"}.
 #' @param ... other parameters passed to \code{\link{print}}.
 #' @author Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 #' @keywords internal
 #' @export
-print.pclm<-function(object, type = c("aggregated", "nonaggregated"), ...){
+print.pclm <- function(x, type = c("aggregated", "nonaggregated"), ...){
   type <- type[1]
   if (type == "aggregated")
-    print(object$grouped, ...)
+    print(x$grouped, ...)
   else if (type == "nonaggregated")
-    print(object$raw, ...)
+    print(x$raw, ...)
   else stop('Unknown type')
 }

@@ -8,13 +8,13 @@ require(MortalitySmooth)
 #'
 #' @description
 #' Auxiliary function for controlling PCLM fitting. Use this function to set control
-#' parameters of the \code{\link{\code{\link{pclm.default}}}} and other related functions.
+#' parameters of the \code{\link{pclm.default}} and other related functions.
 #'
 #' @param x.div Number of sub-classes within PCLM tim/age class (default is 1).
 #' Low value of the parameter makes the PCLM computation faster. It is however recommended to set
 #' it to higher value (e.g. 10) for better \code{nax} estimates.
 #' @param x.auto.trans Logical indicating if automatically multiple age intervals to remove fractions.
-#' \code{TRUE} is the recommended value. See also examples in \code{\link{\code{\link{pclm.default}}}}.
+#' \code{TRUE} is the recommended value. See also examples in \code{\link{pclm.default}}.
 #' @param x.max.ext Integer defining maximal multiple of an age interval. See also \code{\link{pclm.interval.multiple}}.
 #' @param zero.class.add Logical indicating if additional zero count class (open interval)
 #' should be added after last age class. \code{TRUE} is the recommended value. See \code{\link{pclm.nclasses}} and \code{\link{pclm.compmat}}.
@@ -29,9 +29,9 @@ require(MortalitySmooth)
 #' @param bs.method Basis for B- or P-spline used by \code{\link{pclm.compmat}} function.
 #' Possible values:
 #' \itemize{
-#' \item{\code{"MortalitySmooth"}}{ - gives "P-splines" basis based on \code{\link{MortSmooth_bbase}}
-#' \code{\{\link{MortalitySmooth}\}} (recommended)}
-#' \item{\code{"bs"}}{ - gives basic B-splines basis based on \code{\link{bs}} \code{\{\link{splines}\}}.}
+#' \item{\code{"MortalitySmooth"}}{ - gives "P-splines" basis based on \code{MortSmooth_bbase} of 
+#' \code{MortalitySmooth} package (recommended)}
+#' \item{\code{"bs"}}{ - gives basic B-splines basis based on \code{\link{bs}} \code{\link{splines}}.}
 #' }
 #' @param bs.df B- or P- spline degree of freedom (df, number of inner knots)
 #' or a way to its calculation used in \code{\link{pclm.compmat}} function.
@@ -210,6 +210,8 @@ pclm.nclasses<-function(x, control = list()) {
 #' \item{Hastie, T. J. (1992) Generalized additive models. Chapter 7 of Statistical Models in S eds J. M. Chambers and T. J. Hastie, Wadsworth & Brooks/Cole.}
 #' }
 #' @seealso \code{\link{pclm.default}}, \code{\link{pclm.control}}, \code{\link{pclm.interval.multiple}}, and \code{\link{pclm.nclasses}}.
+#' @importFrom Matrix sparseMatrix
+#' @importFrom splines bs
 #' @keywords internal
 pclm.compmat<-function(x, y, exposures = NULL, control = list()){
   
@@ -221,7 +223,7 @@ pclm.compmat<-function(x, y, exposures = NULL, control = list()){
   if ((pclm.nclasses(x, control) >= control$bs.df.max) && (control$bs.use == FALSE)) warning(immediate. = TRUE, 'Big composition matrix detected. Calculations can be slow. Set "bs.use" to TRUE.')
 
   .MortSmooth_Bbase<-function (x, xl = min(x), xr = max(x), df = floor(length(x) / 4), deg = control$bs.deg) {
-    #Modified version of MortalitySmooth::MortSmooth_bbase
+    #Modified version of MortSmooth_bbase MortalitySmooth
     ndx <- df-deg
     dx <- (xr - xl)/ndx
     knots <- seq(xl - deg * dx, xr + deg * dx, by = dx)
@@ -398,7 +400,7 @@ pclm.opt<-function(CompositionMatrix, control = list()){
   if (toupper(control$opt.method) == 'AIC') opty<-function (log10lam) tryme(pclm.core(CompositionMatrix, lambda = 10^log10lam, control = control)$aic) else
     if (toupper(control$opt.method) == 'BIC') opty<-function (log10lam) tryme(pclm.core(CompositionMatrix, lambda = 10^log10lam, control = control)$bic) else
       stop('Unknown method of lambda optimization.')
-  res.opt <- stats::optimize(f = opty, interval = c(-12, 22), tol = control$opt.tol)$minimum
+  res.opt <- optimize(f = opty, interval = c(-12, 22), tol = control$opt.tol)$minimum
   if((round(res.opt) <= -11.9) || (round(res.opt) >= 21.9)) {
     WARN <- 'Lambda reached boundary values.'
     warning(immediate. = TRUE, WARN)

@@ -32,12 +32,13 @@ PCLM algorithm described in Rizzi et al. 2015.
 For further description see the reference [1] and \code{\link{pclm.default}}.\cr\cr
 \emph{\bold{The internal function}}.
 }
+\author{
+Silvia Rizzi (original code, see Appendix #2 of the reference [1]), Maciej J. Danko (modification) <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
+}
 \references{
 \enumerate{
 \item{Rizzi S, Gampe J, Eilers PHC. Efficient estimation of smooth distributions from coarsely grouped data. Am J Epidemiol. 2015;182:138?47.}
 }
 }
-\author{
-Silvia Rizzi (original code, see Appendix #2 of the reference [1]), Maciej J. Danko (modification) <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
-}
 \keyword{internal}
+

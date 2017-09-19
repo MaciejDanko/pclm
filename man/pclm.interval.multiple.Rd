@@ -16,9 +16,10 @@ Calculates minimal multiple of the orginal age/time interval length to remove fr
 The function (together with \code{x} and some control parameters) is used to calculate the
 internal (raw, nonaggregated) interval length during PCLM computations.
 }
-\seealso{
-\code{\link{pclm.default}}, \code{\link{pclm.control}}, and \code{\link{pclm.nclasses}}.
-}
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
+\seealso{
+\code{\link{pclm.default}}, \code{\link{pclm.control}}, and \code{\link{pclm.nclasses}}.
+}
+

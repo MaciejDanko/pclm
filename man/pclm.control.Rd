@@ -19,7 +19,7 @@ Low value of the parameter makes the PCLM computation faster. It is however reco
 it to higher value (e.g. 10) for better \code{nax} estimates.}
 
 \item{x.auto.trans}{Logical indicating if automatically multiple age intervals to remove fractions.
-\code{TRUE} is the recommended value. See also examples in \code{\link{\code{\link{pclm.default}}}}.}
+\code{TRUE} is the recommended value. See also examples in \code{\link{pclm.default}}.}
 
 \item{x.max.ext}{Integer defining maximal multiple of an age interval. See also \code{\link{pclm.interval.multiple}}.}
 
@@ -40,9 +40,9 @@ Possible values: \code{"auto"}, \code{TRUE}, and \code{FALSE}. Used by \code{\li
 \item{bs.method}{Basis for B- or P-spline used by \code{\link{pclm.compmat}} function.
 Possible values:
 \itemize{
-\item{\code{"MortalitySmooth"}}{ - gives "P-splines" basis based on \code{\link{MortSmooth_bbase}}
-\code{\{\link{MortalitySmooth}\}} (recommended)}
-\item{\code{"bs"}}{ - gives basic B-splines basis based on \code{\link{bs}} \code{\{\link{splines}\}}.}
+\item{\code{"MortalitySmooth"}}{ - gives "P-splines" basis based on \code{MortSmooth_bbase} of 
+\code{MortalitySmooth} package (recommended)}
+\item{\code{"bs"}}{ - gives basic B-splines basis based on \code{\link{bs}} \code{\link{splines}}.}
 }}
 
 \item{bs.df}{B- or P- spline degree of freedom (df, number of inner knots)
@@ -85,7 +85,10 @@ List with control parameters.
 }
 \description{
 Auxiliary function for controlling PCLM fitting. Use this function to set control
-parameters of the \code{\link{\code{\link{pclm.default}}}} and other related functions.
+parameters of the \code{\link{pclm.default}} and other related functions.
+}
+\author{
+Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
 \references{
 \enumerate{
@@ -99,6 +102,4 @@ coarsely grouped data. Am J Epidemiol. 2015;182:138?47.}
 \code{\link{pclm.interval.multiple}}, \code{\link{pclm.nclasses}},
 \code{\link{plot.pclm}}, and \code{\link{summary.pclm}}.
 }
-\author{
-Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
-}
+

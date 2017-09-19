@@ -1,12 +1,20 @@
 Package: pclm
 Type: Package
 Title: Penalized Composite Linear Models (PCLMs)
-Version: 0.1.0
-Author: Maciej J. Danko <danko@demogr.mpg.de> <maciej.danko@gmail.com>, Marius Pascariu <mpascariu@health.sdu.dk>, Silvia Rizzi <srizzi@health.sdu.dk>, 
-Maintainer: Marius Pascariu <mpascariu@health.sdu.dk>, Maciej J. Danko <danko@demogr.mpg.de> <maciej.danko@gmail.com>
-Description: The PCLM method is based on the composite link model, with a penalty added to ensure the smoothness of the target distribution. Estimates are obtained by maximizing a penalized likelihood. This maximization is performed efficiently by a version of the iteratively reweighted least-squares algorithm. Optimal values of the smoothing parameter are chosen by minimizing Bayesian or Akaike’ s Information Criterion [From Rizzi et al. 2015 abstract].
+Version: 2017.09.19
+Author: Maciej J. Danko <danko@demogr.mpg.de> <maciej.danko@gmail.com>, Marius
+    Pascariu <mpascariu@health.sdu.dk>, Silvia Rizzi <srizzi@health.sdu.dk>,
+Maintainer: Marius Pascariu <mpascariu@health.sdu.dk>, Maciej J. Danko
+    <danko@demogr.mpg.de> <maciej.danko@gmail.com>
+Description: The PCLM method is based on the composite link model, with a
+    penalty added to ensure the smoothness of the target distribution. Estimates are
+    obtained by maximizing a penalized likelihood. This maximization is performed
+    efficiently by a version of the iteratively reweighted least-squares algorithm.
+    Optimal values of the smoothing parameter are chosen by minimizing Bayesian or
+    Akaike’ s Information Criterion [From Rizzi et al. 2015 abstract].
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-Imports: Matrix, splines, MortalitySmooth
-RoxygenNote: 6.0.1
+Imports: Matrix (>= 1.2-6), splines(>= 3.1.3)
+Suggests: MortalitySmooth (>= 2.3.4)
+RoxygenNote: 5.0.1

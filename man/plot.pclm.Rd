@@ -4,12 +4,10 @@
 \alias{plot.pclm}
 \title{Diagnostic plot for PCLM object.}
 \usage{
-\method{plot}{pclm}(object, type = c("aggregated", "nonaggregated"), xlab,
-  ylab, xlim, ylim, legpos.x = "topleft", legpos.y = NULL)
+\method{plot}{pclm}(x, type = c("aggregated", "nonaggregated"), xlab, ylab,
+  xlim, ylim, legpos.x = "topleft", legpos.y = NULL, ...)
 }
 \arguments{
-\item{object}{Fitted PCLM object.}
-
 \item{type}{Type of PCLM plot:
 \itemize{
 \item{\code{"aggregated"} - Aggregated PCLM fit with interval length of \code{out.step}}.
@@ -28,14 +26,17 @@ interval length divided by \code{x.div}. See \code{\link{pclm.control}}}.
 \item{ylim}{Optional limits of the Y-axis.}
 
 \item{legpos.x, legpos.y}{Position of the \code{\link{legend}}. If \code{legpos.x == NULL} then legend is not plotted.}
+
+\item{object}{Fitted PCLM object.}
 }
 \description{
-\emph{bold{Generic function}}
-}
-\seealso{
-\code{\link{summary.pclm}}
+\emph{\bold{Generic function}}
 }
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
+\seealso{
+\code{\link{summary.pclm}}
+}
 \keyword{internal}
+

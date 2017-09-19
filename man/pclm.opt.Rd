@@ -29,12 +29,13 @@ List with components:
 \description{
 \emph{\bold{The internal function}}.
 }
+\author{
+Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
+}
 \references{
 \enumerate{
 \item{Rizzi S, Gampe J, Eilers PHC. Efficient estimation of smooth distributions from coarsely grouped data. Am J Epidemiol. 2015;182:138?47.}
 }
 }
-\author{
-Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
-}
 \keyword{internal}
+

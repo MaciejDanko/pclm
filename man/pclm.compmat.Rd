@@ -51,6 +51,9 @@ otherwise,
 where \code{m} is an interval multiple calculated by \code{\link{pclm.interval.multiple}}.
 See also \code{\link{pclm.nclasses}}.
 }
+\author{
+Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
+}
 \references{
 \enumerate{
 \item{Rizzi S, Gampe J, Eilers PHC. Efficient estimation of smooth distributions from coarsely grouped data. Am J Epidemiol. 2015;182:138?47.}
@@ -61,7 +64,5 @@ See also \code{\link{pclm.nclasses}}.
 \seealso{
 \code{\link{pclm.default}}, \code{\link{pclm.control}}, \code{\link{pclm.interval.multiple}}, and \code{\link{pclm.nclasses}}.
 }
-\author{
-Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
-}
 \keyword{internal}
+

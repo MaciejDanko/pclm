@@ -10,12 +10,13 @@
 \item{object}{Fitted PCLM object.}
 }
 \description{
-\emph{bold{Generic function}}
-}
-\seealso{
-\code{\link{plot.pclm}}
+\emph{\bold{Generic function}}
 }
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
+\seealso{
+\code{\link{plot.pclm}}
+}
 \keyword{internal}
+

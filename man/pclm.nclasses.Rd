@@ -35,9 +35,10 @@ length(AU10p.1B$raw$x) # the number of raw classes after fit
 plot(AU10p.1B)
 }
 }
-\seealso{
-\code{\link{pclm.control}}, \code{\link{pclm.interval.multiple}},
-}
 \author{
 Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
 }
+\seealso{
+\code{\link{pclm.control}}, \code{\link{pclm.interval.multiple}},
+}
+

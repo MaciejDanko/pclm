@@ -257,6 +257,9 @@ Bp4$raw$n[1:10]
 # **** See more examples in the help for pclm.nclasses() function.
 }
 }
+\author{
+Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
+}
 \references{
 \enumerate{
 \item{Rizzi S, Gampe J, Eilers PHC. Efficient estimation of smooth distributions from coarsely grouped data. Am J Epidemiol. 2015;182:138?47.}
@@ -266,6 +269,4 @@ Bp4$raw$n[1:10]
 \seealso{
 \code{\link{pclm.compmat}}, \code{\link{pclm.interval.multiple}}, and \code{\link{pclm.nclasses}}.
 }
-\author{
-Maciej J. Danko <\email{danko@demogr.mpg.de}> <\email{maciej.danko@gmail.com}>
-}
+
