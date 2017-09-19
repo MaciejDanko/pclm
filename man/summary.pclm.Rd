@@ -4,7 +4,7 @@
 \alias{summary.pclm}
 \title{Summary of the fitted PCLM object}
 \usage{
-\method{summary}{pclm}(object, ...)
+summary.pclm(object, ...)
 }
 \arguments{
 \item{object}{Fitted PCLM object.}

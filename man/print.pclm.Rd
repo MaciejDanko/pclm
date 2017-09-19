@@ -4,7 +4,7 @@
 \alias{print.pclm}
 \title{Print function for PCLM object}
 \usage{
-\method{print}{pclm}(x, type = c("aggregated", "nonaggregated"), ...)
+print.pclm(x, type = c("aggregated", "nonaggregated"), ...)
 }
 \arguments{
 \item{x}{PCLM object.}
